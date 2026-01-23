@@ -6,8 +6,8 @@ POST {{url}}/auth/register
 Content-Type: application/json
 
 {
-    "name":"Moeez Ali",
-    "email":"moeezali2375@gmail.com",
+    "name":"Sakshi Ingle",
+    "email":"Sakshi1@gmail.com",
     "password":"1234"
 }
 
@@ -24,7 +24,7 @@ POST {{url}}/auth/login
 Content-Type: application/json
 
 {
-    "email":"moeezali2375@gmail.com",
+    "email":"yourid@gmail.com",
     "password":"12345"
 }
 
