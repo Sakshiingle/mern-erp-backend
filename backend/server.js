@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
-import "./jobs/cleanup.js";
+//import "./jobs/cleanup.js";
 import connectDB from "./config/db.js";
 import homeRoutes from "./routes/routes.js";
 import authRoutes from "./routes/authRoutes.js";

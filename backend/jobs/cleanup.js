@@ -1,9 +1,9 @@
-import cron from "node-cron";
+//import cron from "node-cron";
 import { configDotenv } from "dotenv";
 import userModel from "../models/userModel.js";
 configDotenv();
 
-cron.schedule(process.env.CRON_TIME, async () => {
+//cron.schedule(process.env.CRON_TIME, async () => {
   try {
     const now = new Date();
 
@@ -50,4 +50,4 @@ cron.schedule(process.env.CRON_TIME, async () => {
   } catch (error) {
     console.error("Error in Cleanup Job:", error);
   }
-});
+//});
