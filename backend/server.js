@@ -7,6 +7,7 @@ import homeRoutes from "./routes/routes.js";
 import authRoutes from "./routes/authRoutes.js";
 import protectRoutes from "./routes/protectRoutes.js";
 import { crossOrigin } from "./middlewares/corsMiddleware.js";
+import adminRoutes from "./routes/adminRoutes.js";
 import path from "path";
 
 const app = express();
@@ -18,6 +19,8 @@ crossOrigin(app);
 app.use("/api", homeRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/protect", protectRoutes);
+app.use("/api", adminRoutes);
+
 
 
 const __dirname1 = path.resolve();
