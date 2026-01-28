@@ -5,42 +5,40 @@ const protect = async (req, res, next) => {
   try {
     let token;
 
+    // 1️⃣ Check Authorization header exists
     if (
       req.headers.authorization &&
       req.headers.authorization.startsWith("Bearer")
     ) {
+      // 2️⃣ Extract token from "Bearer <token>"
       token = req.headers.authorization.split(" ")[1];
     }
 
+    // 3️⃣ If token missing → block
     if (!token) {
-      throw new Error();
+      return res.status(401).json({
+        msg: { title: "Authentication Failed! 🧑‍💻" },
+      });
     }
 
-    const now = new Date();
-    const decoded = jwt.verify(token, process.env.TOKEN);
-    const user = await userModel.findById(decoded.id);
+    // 4️⃣ Verify token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    if (!user) {
-      throw new Error();
+    // 5️⃣ Fetch user from DB
+    req.user = await userModel.findById(decoded.id).select("-password");
+
+    // 6️⃣ If user not found
+    if (!req.user) {
+      return res.status(401).json({
+        msg: { title: "User not found!" },
+      });
     }
 
-    if (user.verificationTokenExpires < now) {
-      throw new Error();
-    }
-
-    req.user = {
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isVerified: user.isVerified,
-    };
-
+    // 7️⃣ Allow request to continue
     next();
   } catch (error) {
-    res.status(401).send({
-      msg: {
-        title: "Authentication Failed! 🧑🏻‍💻",
-      },
+    return res.status(401).json({
+      msg: { title: "Authentication Failed! 🧑‍💻" },
     });
   }
 };

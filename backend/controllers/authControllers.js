@@ -53,8 +53,8 @@ const registerUser = async (req, res) => {
     });
 
     await user.save();
-    const message = emailVerificationMessage(user);
-    await sendEmailNotification(user.email, message.subject, message.body);
+    //const message = emailVerificationMessage(user);
+    //await sendEmailNotification(user.email, message.subject, message.body);
 
     return res.status(200).send({
       user: {
@@ -142,7 +142,7 @@ const login = async (req, res) => {
             name: user.name,
             email: user.email,
             isVerified: user.isVerified,
-            token: generateToken(user._id, rememberMe),
+            token: generateToken(user._id),
           },
           msg: {
             title: "Authentication successfull! 🤩",

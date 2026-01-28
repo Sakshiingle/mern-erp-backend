@@ -1,6 +1,6 @@
-import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
+import express from "express";
 //import "./jobs/cleanup.js";
 import connectDB from "./config/db.js";
 import homeRoutes from "./routes/routes.js";
@@ -18,6 +18,7 @@ crossOrigin(app);
 app.use("/api", homeRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/protect", protectRoutes);
+
 
 const __dirname1 = path.resolve();
 

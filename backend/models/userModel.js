@@ -40,6 +40,11 @@ const userSchema = new mongoose.Schema({
   forgetPasswordExpires: {
     type: Date,
   },
+  role: {
+  type: String,
+  enum: ["admin", "manager", "employee", "user"],
+  default: "user",
+},
 });
 
 userSchema.pre("save", async function (next) {

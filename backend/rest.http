@@ -57,11 +57,11 @@ PUT {{url}}/auth/password/forget
 Content-Type: application/json
 
 {
-    "email":"moeezali2375@gmail.com"
+    "email":"Sakshi1@gmail.com"
 }
 
 ### ? AUTH / PWD / VERIFY / :EMAIL / :TOKEN
-PUT {{url}}/auth/password/verify/moeezali2375@gmail.com/7db9d9f7f689a705d3291d78982e41d777bc43201cdc3931686441b7e9b3efd6a13ea3dd6e2ef145270f7e49371e3279c2271494a5b2fc3e817765587c685016
+PUT {{url}}/auth/password/verify/Sakshi1@gmail.com/7db9d9f7f689a705d3291d78982e41d777bc43201cdc3931686441b7e9b3efd6a13ea3dd6e2ef145270f7e49371e3279c2271494a5b2fc3e817765587c685016
 Content-Type: application/json
 
 {
@@ -71,3 +71,14 @@ Content-Type: application/json
 ### ? PROTECT
 GET {{url}}/protect
 Authorization: Bearer {{token}}
+
+### AUTH / REGISTER (TEST)
+POST http://localhost:4000/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "email": "testuser_feb@gmail.com",
+  "password": "Password@123"
+}
+
