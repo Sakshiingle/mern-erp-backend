@@ -1,7 +1,5 @@
-# Environment variables (NEVER push secrets)
-.env
 
-# Node dependencies
+.env
 node_modules/
 
 # Logs
