@@ -8,7 +8,10 @@ import authRoutes from "./routes/authRoutes.js";
 import protectRoutes from "./routes/protectRoutes.js";
 import { crossOrigin } from "./middlewares/corsMiddleware.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
 import path from "path";
+
+
 
 const app = express();
 
@@ -20,6 +23,7 @@ app.use("/api", homeRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/protect", protectRoutes);
 app.use("/api", adminRoutes);
+app.use("/api/products", productRoutes);
 
 
 

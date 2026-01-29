@@ -1,5 +1,5 @@
 // Import Product model (MongoDB collection)
-import Product from "../models/Product.js";
+import Product from "../models/productModel.js";
 
 /*
   @desc    Create a new product
@@ -44,5 +44,127 @@ const createProduct = async (req, res) => {
   }
 };
 
+/**
+ * @desc    Get products with pagination & search
+ * @route   GET /api/products
+ * @access  Admin, Inventory, Sales
+ */
+const getProducts = async (req, res) => {
+  try {
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+    const search = req.query.search || "";
+
+    const query = search
+      ? {
+          $or: [
+            { name: { $regex: search, $options: "i" } },
+            { sku: { $regex: search, $options: "i" } },
+          ],
+        }
+      : {};
+
+    const totalCount = await Product.countDocuments(query);
+
+    const products = await Product.find(query)
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      products,
+      page,
+      totalPages: Math.ceil(totalCount / limit),
+      totalCount,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+ // Get product by ID
+const getProductById = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({
+        message: "Product not found",
+      });
+    }
+
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(400).json({
+      message: "Invalid product ID",
+    });
+  }
+};
+// Update product
+const updateProduct = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({
+        message: "Product not found",
+      });
+    }
+
+    const { name, sku, price, stock, reorderLevel } = req.body;
+
+    if (sku && sku !== product.sku) {
+      const skuExists = await Product.findOne({ sku });
+      if (skuExists) {
+        return res.status(400).json({
+          message: "SKU already exists",
+        });
+      }
+    }
+
+    product.name = name ?? product.name;
+    product.sku = sku ?? product.sku;
+    product.price = price ?? product.price;
+    product.stock = stock ?? product.stock;
+    product.reorderLevel = reorderLevel ?? product.reorderLevel;
+
+    const updatedProduct = await product.save();
+
+    res.status(200).json(updatedProduct);
+  } catch (error) {
+    res.status(400).json({
+      message: "Failed to update product",
+    });
+  }
+};
+// Soft delete product
+const deleteProduct = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({
+        message: "Product not found",
+      });
+    }
+
+    product.isActive = false;
+    await product.save();
+
+    res.status(200).json({
+      message: "Product deleted successfully",
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "Failed to delete product",
+    });
+  }
+};
+
+
+
+
 // Export controller
-export { createProduct };
+export {createProduct,getProducts,getProductById,updateProduct,deleteProduct,};
+
+
