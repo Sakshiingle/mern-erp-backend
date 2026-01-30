@@ -9,6 +9,7 @@ import protectRoutes from "./routes/protectRoutes.js";
 import { crossOrigin } from "./middlewares/corsMiddleware.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 import path from "path";
 
 
@@ -24,6 +25,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/protect", protectRoutes);
 app.use("/api", adminRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/users", userRoutes);
 
 
 
