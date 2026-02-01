@@ -16,7 +16,8 @@ const getAllUsers = async (req, res) => {
         }
       : {};
 
-    const users = await User.find(search)
+    const includeInactive = req.query.includeInactive === "true";
+    const users = await User.find({ ...search, ...(includeInactive ? {} : { isActive: true }) })
       .select("_id name email role isVerified isActive")
       .skip(skip)
       .limit(limit)

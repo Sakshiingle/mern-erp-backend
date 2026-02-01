@@ -50,6 +50,13 @@ const login = async (req, res) => {
       throw new Error("User does not exist.");
     }
 
+    // Block inactive users
+    if (!user.isActive) {
+      return res.status(403).json({
+        message: "Your account is deactivated. Please contact admin.",
+      });
+    }
+
     const isMatch = await user.matchPassword(password);
     if (!isMatch) {
       throw new Error("Incorrect password.");
