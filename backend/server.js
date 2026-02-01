@@ -10,6 +10,9 @@ import { crossOrigin } from "./middlewares/corsMiddleware.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import salesOrderRoutes from "./routes/salesOrderRoutes.js";
+import customerRoutes from "./routes/customerRoutes.js";
+import purchaseOrderRoutes from "./routes/purchaseOrderRoutes.js";
 import path from "path";
 
 
@@ -26,6 +29,12 @@ app.use("/api/protect", protectRoutes);
 app.use("/api", adminRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/sales-orders", salesOrderRoutes);
+app.use("/api/customers", customerRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/customers", customerRoutes);
+app.use("/api/purchase-orders", purchaseOrderRoutes);
+
 
 
 
