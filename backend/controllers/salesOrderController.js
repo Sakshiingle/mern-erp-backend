@@ -5,20 +5,22 @@ export const createSalesOrder = async (req, res) => {
   try {
     const { customerId, products } = req.body;
 
-    // 1️⃣ Basic validation
+    // Basic validation
     if (!customerId || !products || products.length === 0) {
-      return res.status(400).json({ message: "Invalid order data" });
+      return res.status(400).json({
+        message: "Invalid sales order data",
+      });
     }
 
     let totalPrice = 0;
 
-    // 2️⃣ Check products & stock, calculate total
+    // Validate products and calculate total
     for (const item of products) {
       const product = await Product.findById(item.productId);
 
-      if (!product) {
+      if (!product || !product.isActive) {
         return res.status(404).json({
-          message: `Product not found: ${item.productId}`,
+          message: "Product not found or inactive",
         });
       }
 
@@ -31,29 +33,24 @@ export const createSalesOrder = async (req, res) => {
       totalPrice += product.price * item.quantity;
     }
 
-    // 3️⃣ Create sales order
+    // Create sales order
     const salesOrder = await SalesOrder.create({
       customerId,
       products,
       totalPrice,
     });
 
-    // 4️⃣ Reduce stock
+    // Reduce stock
     for (const item of products) {
       await Product.findByIdAndUpdate(item.productId, {
         $inc: { stock: -item.quantity },
       });
     }
 
-    // 5️⃣ Success response
-    return res.status(201).json({
-      message: "Sales order created successfully",
-      order: salesOrder,
-    });
+    return res.status(201).json(salesOrder);
   } catch (error) {
-    console.error(error);
-    return res
-      .status(500)
-      .json({ message: "Server error while creating sales order" });
+    return res.status(500).json({
+      message: error.message,
+    });
   }
 };

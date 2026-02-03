@@ -1,18 +1,15 @@
 import express from "express";
 import { createSalesOrder } from "../controllers/salesOrderController.js";
 import protect from "../middlewares/authMiddleware.js";
-import  roleCheck  from "../middlewares/roleMiddleware.js";
+import roleCheck from "../middlewares/roleMiddleware.js";
 
 const router = express.Router();
 
-/*
-  Route: POST /api/sales-orders
-  Access: Sales, Admin
-*/
+// Create sales order (Admin + Sales)
 router.post(
   "/",
   protect,
-  roleCheck("sales", "admin"),
+  roleCheck("admin", "sales"),
   createSalesOrder
 );
 

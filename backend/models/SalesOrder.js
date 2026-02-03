@@ -22,7 +22,8 @@ const salesOrderSchema = new mongoose.Schema(
         },
         price: {
           type: Number,
-          required: true,
+          required: false,
+          min: 0,
         },
       },
     ],
@@ -30,6 +31,7 @@ const salesOrderSchema = new mongoose.Schema(
     totalPrice: {
       type: Number,
       required: true,
+      min: 0,
     },
 
     status: {
@@ -37,15 +39,12 @@ const salesOrderSchema = new mongoose.Schema(
       enum: ["pending", "shipped", "delivered"],
       default: "pending",
     },
-
-    createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 const SalesOrder = mongoose.model("SalesOrder", salesOrderSchema);
+
 export default SalesOrder;
