@@ -34,8 +34,13 @@ const UserProvider = ({ children }: Props) => {
   };
 
   const logout = () => {
-    setUser(null);
-  };
+  // Clear user state
+  setUser(null);
+
+  // Clear all auth-related storage (future safe)
+  localStorage.removeItem("user");
+};
+
 
   return (
     <UserContext.Provider value={{ user, setUser, logout, loading }}>

@@ -11,10 +11,11 @@ export const registerUser = async (
     password,
   });
 
-  const { token, user } = response.data;
+  // backend returns: { user: { ..., token } }
+  const user = response.data.user;
 
-  // store token
-  localStorage.setItem("token", token);
+  // store token correctly
+  localStorage.setItem("token", user.token);
 
   return user;
 };
@@ -25,10 +26,11 @@ export const loginUser = async (email: string, password: string) => {
     password,
   });
 
-  const { token, user } = response.data;
+  // backend returns: { user: { ..., token } }
+  const user = response.data.user;
 
-  // store token
-  localStorage.setItem("token", token);
+  // store token correctly
+  localStorage.setItem("token", user.token);
 
   return user;
 };

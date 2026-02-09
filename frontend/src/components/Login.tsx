@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useUser from "@/context/User/UserHook";
+import { loginUser } from "@/lib/authApi";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,27 +11,39 @@ const Login = () => {
   const { setUser } = useUser();
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!email || !pwd) return;
 
-    setIsLoading(true);
+    try {
+      setIsLoading(true);
 
-    // 🔐 FRONTEND-ONLY DUMMY USER (WEEK 3)
-    const dummyUser = {
-      name: "Test User",
-      email: email,
-      isVerified: true,
-      token: "dummy-token",
-    };
+  const res = await loginUser(email, pwd);
 
-    setUser(dummyUser);
+  // Backend returns { user: {...} }
+  const backendUser = res.user;
 
-    // redirect
-    navigate("/home");
+  // Normalize user for frontend
+  const normalizedUser = {
+    _id: backendUser._id,
+    name: backendUser.name,
+    email: backendUser.email,
+    role: backendUser.role,
+    token: backendUser.token,
+  };
 
-    setIsLoading(false);
+  setUser(normalizedUser);
+
+  // Week 4: no verification yet → go home
+  navigate("/home");
+} catch (error) {
+  console.error("Login failed:", error);
+  alert("Invalid email or password");
+} finally {
+  setIsLoading(false);
+}
+
   };
 
   return (

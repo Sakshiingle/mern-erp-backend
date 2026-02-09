@@ -10,11 +10,15 @@ const VerifiedRoute = () => {
   // 🔒 not logged in
   if (!user) return <Navigate to="/" replace />;
 
-  // 📩 logged in but not verified
-  if (!user.isVerified) return <Navigate to="/verify" replace />;
+  
+ // ⛔ not admin
+if (user.role !== "admin") {
+  return <Navigate to="/" replace />;
+}
 
-  // ✅ verified user
-  return <Outlet />;
+// ✅ admin user
+return <Outlet />;
+
 };
 
 export default VerifiedRoute;

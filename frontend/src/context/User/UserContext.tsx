@@ -2,6 +2,7 @@
 import { createContext } from "react";
 
 export type User = {
+  role: string;
   _id?: string;
   name: string;
   email: string;

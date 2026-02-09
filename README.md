@@ -91,6 +91,7 @@ Frontend is intentionally minimal and added **only after backend APIs are tested
 
 
 ### ⏳ Week-4 (In Progress)
+-Focus: Frontend Authentication Integration & Session Handling
 
 
 ## API Modules Overview
