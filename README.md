@@ -74,13 +74,24 @@ Frontend is intentionally minimal and added **only after backend APIs are tested
 - Complete Thunder Client testing (200 vs 403 validation)
 - Minimal frontend integration for products & admin users
 
-### ⏳ Week-3 (In Progress)
-- Advanced ERP modules
-- Business-logic validations
-- Frontend improvements
-- Final system integration
+### ✅ Week-3: Frontend Authentication & Route Control (Completed)
 
----
+- Login & Signup UI
+- Frontend user state management using Context API
+- User persistence using `localStorage`
+- Protected routes based on:
+  - Logged-in state
+  - Email verification state
+- Auto-redirect logic:
+  - Logged-in users cannot access Login / Signup
+  - Verified users → `/home`
+  - Unverified users → `/verify`
+- ERP-correct frontend auth flow
+- Backend-independent validation using controlled dummy auth (as per ERP phase)
+
+
+### ⏳ Week-4 (In Progress)
+
 
 ## API Modules Overview
 

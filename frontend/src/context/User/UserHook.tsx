@@ -1,10 +1,12 @@
+// frontend/src/context/User/UserHook.tsx
 import { useContext } from "react";
 import UserContext from "./UserContext";
 
 const useUser = () => {
   const context = useContext(UserContext);
-  if (context == undefined)
-    throw new Error("User Context is being used outside the scope");
+  if (!context) {
+    throw new Error("useUser must be used inside UserProvider");
+  }
   return context;
 };
 

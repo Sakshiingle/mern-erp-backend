@@ -50,7 +50,7 @@ const ForgetPwd = () => {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="moeezali2375@gmail.com"
+                  placeholder="sakshi1@gmail.com"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}

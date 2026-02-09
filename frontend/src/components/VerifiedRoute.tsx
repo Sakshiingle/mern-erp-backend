@@ -1,11 +1,20 @@
-import useUser from "@/context/User/UserHook";
-import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import useUser from "@/context/User/UserHook";
 
-const VerifiedRoute: React.FC = () => {
-  const { user } = useUser();
+const VerifiedRoute = () => {
+  const { user, loading } = useUser();
 
-  return user.isVerified ? <Outlet /> : <Navigate to="/verify" />;
+  // ⏳ wait for user to load from localStorage
+  if (loading) return null;
+
+  // 🔒 not logged in
+  if (!user) return <Navigate to="/" replace />;
+
+  // 📩 logged in but not verified
+  if (!user.isVerified) return <Navigate to="/verify" replace />;
+
+  // ✅ verified user
+  return <Outlet />;
 };
 
 export default VerifiedRoute;

@@ -1,34 +1,47 @@
-import { useState } from "react";
-import UserContext from "./UserContext";
+import React, { useEffect, useState } from "react";
+import UserContext, { User } from "./UserContext";
 
-type User = {
-  _id: string;
-  name: string;
-  email: string;
-  isVerified: boolean;
-  token: string;
+type Props = {
+  children: React.ReactNode;
 };
 
-const UserProvider = ({ children }) => {
-  const [user, setUser] = useState<User | null>(
-    JSON.parse(localStorage.getItem("user")) || null
-  );
+const UserProvider = ({ children }: Props) => {
+  const [user, setUserState] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const logout = () => {
-    if (user) {
+  // Load user once on app start
+  useEffect(() => {
+    const raw = localStorage.getItem("user");
+    if (raw) {
+      try {
+        setUserState(JSON.parse(raw));
+      } catch {
+        localStorage.removeItem("user");
+        setUserState(null);
+      }
+    }
+    setLoading(false);
+  }, []);
+
+  const setUser = (u: User | null) => {
+    if (u) {
+      localStorage.setItem("user", JSON.stringify(u));
+      setUserState(u);
+    } else {
       localStorage.removeItem("user");
-      setUser(null);
+      setUserState(null);
     }
   };
-  const addUser = (value: User) => {
-    const str = JSON.stringify(value);
-    localStorage.setItem("user", str);
-    setUser(value);
+
+  const logout = () => {
+    setUser(null);
   };
+
   return (
-    <UserContext.Provider value={{ user, setUser: addUser, logout }}>
+    <UserContext.Provider value={{ user, setUser, logout, loading }}>
       {children}
     </UserContext.Provider>
   );
 };
+
 export default UserProvider;

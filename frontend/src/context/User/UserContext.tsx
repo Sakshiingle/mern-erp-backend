@@ -1,17 +1,19 @@
+// frontend/src/context/User/UserContext.ts
 import { createContext } from "react";
 
-type User = {
-  _id: string;
+export type User = {
+  _id?: string;
   name: string;
   email: string;
-  isVerified: boolean;
-  token: string;
+  isVerified?: boolean;
+  token?: string;
 };
 
-type UserContextType = {
+export type UserContextType = {
   user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  setUser: (user: User | null) => void;
   logout: () => void;
+  loading: boolean;
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
